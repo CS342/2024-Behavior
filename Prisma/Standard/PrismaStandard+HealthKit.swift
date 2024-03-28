@@ -49,7 +49,7 @@ extension PrismaStandard: HealthKitConstraint {
             firestoreResource["device"] = deviceName
             // timeIndex is a dictionary with time-related info (range, timezone, datetime.start, datetime.end)
             // timeIndex fields are merged with this specific HK datapoint so we can just access this part to fetch/sort by time
-            firestoreResource.merge(timeIndex as [String : Any]) { (_, new) in new }
+            firestoreResource.merge(timeIndex as [String: Any]) { _, new in new }
             firestoreResource["datetimeStart"] = effectiveTimestamp
             try await Firestore.firestore().document(path).setData(firestoreResource)
         } catch {
