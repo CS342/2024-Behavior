@@ -21,13 +21,13 @@ extension Date {
         var timeIndex: [String: Any?] = [
             "range": isRange,
             "timezone": startComponents.timeZone?.identifier,
-            "datetime.start": startDate.toISOFormat(),
-            "datetime.end": endDate.toISOFormat()
+            "datetimeStart": startDate.toISOFormat(),
+            "datetimeEnd": endDate.toISOFormat()
         ]
         
         // passing the timeIndex dictionary by reference so the changes persist
-        addTimeIndexComponents(&timeIndex, dateComponents: startComponents, suffix: ".start")
-        addTimeIndexComponents(&timeIndex, dateComponents: endComponents, suffix: ".end")
+        addTimeIndexComponents(&timeIndex, dateComponents: startComponents, suffix: "Start")
+        addTimeIndexComponents(&timeIndex, dateComponents: endComponents, suffix: "End")
         addTimeIndexRangeComponents(&timeIndex, startComponents: startComponents, endComponents: endComponents)
         
         return timeIndex
@@ -54,34 +54,34 @@ extension Date {
         startComponents: DateComponents,
         endComponents: DateComponents
     ) {
-        timeIndex["year.range"] = getRange(
+        timeIndex["yearRange"] = getRange(
             start: startComponents.year,
             end: endComponents.year,
             maxValue: Int.max
         )
-        timeIndex["month.range"] = getRange(
+        timeIndex["monthRange"] = getRange(
             start: startComponents.month,
             end: endComponents.month,
             maxValue: 12,
             startValue: 1 // months are 1-indexed
         )
-        timeIndex["day.range"] = getRange(
+        timeIndex["dayRange"] = getRange(
             start: startComponents.day,
             end: endComponents.day,
             maxValue: daysInMonth(month: startComponents.month, year: startComponents.year),
             startValue: 1 // days are 1-indexed
         )
-        timeIndex["hour.range"] = getRange(
+        timeIndex["hourRange"] = getRange(
             start: startComponents.hour,
             end: endComponents.hour,
             maxValue: 23
         )
-        timeIndex["dayMinute.range"] = getRange(
+        timeIndex["dayMinuteRange"] = getRange(
             start: calculateDayMinute(hour: startComponents.hour, minute: startComponents.minute),
             end: calculateDayMinute(hour: endComponents.hour, minute: endComponents.minute),
             maxValue: 1439
         )
-        timeIndex["fifteenMinBucket.range"] = getRange(
+        timeIndex["fifteenMinBucketRange"] = getRange(
             start: calculate15MinBucket(hour: startComponents.hour, minute: startComponents.minute),
             end: calculate15MinBucket(hour: endComponents.hour, minute: endComponents.minute),
             maxValue: 95
