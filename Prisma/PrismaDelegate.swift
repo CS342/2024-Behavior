@@ -60,7 +60,11 @@ class PrismaDelegate: SpeziAppDelegate {
                         emulatorSettings: (host: "localhost", port: 9099)
                     )
                 } else {
-                    FirebaseAccountConfiguration(authenticationMethods: [.emailAndPassword, .signInWithApple])
+                    if FeatureFlags.healthKitUploadOnly {
+                        FirebaseAccountConfiguration(authenticationMethods: [.emailAndPassword])
+                    } else {
+                        FirebaseAccountConfiguration(authenticationMethods: [.emailAndPassword, .signInWithApple])
+                    }
                 }
                 firestore
                 if FeatureFlags.useFirebaseEmulator {

@@ -15,33 +15,36 @@ struct HKUploadProgressView: View {
     @State private var progress = 0.5 // replace with progress from the actual upload
     
     var body: some View {
-        VStack {
-            Text("HealthKit Data Upload Progress") // Add a title here
-                                .font(.title)
-                                .multilineTextAlignment(.center)
-                                .fontWeight(.bold)
-                                .fontDesign(.rounded)
-                                .padding()
-                                .multilineTextAlignment(.center)
-                                .foregroundStyle(
-                                    LinearGradient(
-                                        colors: [.purple, .blue],
-                                        startPoint: .bottomLeading,
-                                        endPoint: .topTrailing
-                                    )
-                                )
-            GeometryReader { geometry in
-                Spacer()
-                ProgressView(value: progress)
-                    .progressViewStyle(ProgressBarStyle())
-                    .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.05, alignment: .center)
+        NavigationStack {
+            Spacer()
+            VStack {
+                Text("HealthKit Data Upload Progress")
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .fontWeight(.bold)
+                    .fontDesign(.rounded)
                     .padding()
-                Spacer()
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [.purple, .blue],
+                            startPoint: .bottomLeading,
+                            endPoint: .topTrailing
+                        )
+                    )
+                GeometryReader { geometry in
+                    Spacer()
+                    ProgressView(value: progress)
+                        .progressViewStyle(ProgressBarStyle())
+                        .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.05, alignment: .center)
+                        .padding()
+                    Spacer()
+                }
             }
-        }
-        .toolbar {
-            if AccountButton.shouldDisplay {
-                AccountButton(isPresented: $presentingAccount)
+            .toolbar {
+                if AccountButton.shouldDisplay {
+                    AccountButton(isPresented: $presentingAccount)
+                }
             }
         }
     }
