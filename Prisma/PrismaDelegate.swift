@@ -99,7 +99,7 @@ class PrismaDelegate: SpeziAppDelegate {
                 Set(PrismaDelegate.healthKitSampleTypes),
                 /// predicate to request data from one month in the past to present.
                 predicate: HKQuery.predicateForSamples(
-                    withStart: Calendar.current.date(byAdding: .month, value: -1, to: .now),
+                    withStart: Calendar.current.date(byAdding: .month, value: -6, to: .now),
                     end: nil,
                     options: .strictEndDate
                 ),

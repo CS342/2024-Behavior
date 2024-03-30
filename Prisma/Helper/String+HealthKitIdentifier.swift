@@ -13,8 +13,8 @@ extension String {
     /// converts a HKSample Type string representation to a lower cased id.
     /// e.g. "HKQuantityTypeIdentifierStepCount" => "stepcount".
     var healthKitDescription: String {
-        if self == "workout" {
-            return self
+        if self == "workout" || self == "HKWorkoutTypeIdentifier" {
+            return "workout"
         }
         
         let prefixes = ["HKQuantityTypeIdentifier", "HKCategoryTypeIdentifier", "HKCorrelationTypeIdentifier", "HKWorkoutTypeIdentifier"]
