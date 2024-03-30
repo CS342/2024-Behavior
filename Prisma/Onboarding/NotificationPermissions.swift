@@ -18,6 +18,9 @@ struct NotificationPermissions: View {
     
     @State private var notificationProcessing = false
     
+    var descriptionText = FeatureFlags.healthKitUploadOnly ?
+        LocalizedStringKey("STUDY_NOTIFICATION_PERMISSIONS_DESCRIPTION") :
+        LocalizedStringKey("NOTIFICATION_PERMISSIONS_DESCRIPTION")
     
     var body: some View {
         OnboardingView(
@@ -32,7 +35,7 @@ struct NotificationPermissions: View {
                         .font(.system(size: 150))
                         .foregroundColor(.accentColor)
                         .accessibilityHidden(true)
-                    Text("NOTIFICATION_PERMISSIONS_DESCRIPTION")
+                    Text(descriptionText)
                         .multilineTextAlignment(.center)
                         .padding(.vertical, 16)
                     Spacer()

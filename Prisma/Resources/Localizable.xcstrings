@@ -759,6 +759,17 @@
         }
       }
     },
+    "STUDY_NOTIFICATION_PERMISSIONS_DESCRIPTION" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This study will send you notifications regarding the upload status of your HealthKit data."
+          }
+        }
+      }
+    },
     "TASK_CONTEXT_ACTION_QUESTIONNAIRE" : {
       "localizations" : {
         "en" : {

@@ -32,9 +32,12 @@ class PrismaPushNotifications: NSObject, Module, NotificationHandler, Notificati
     
     func handleNotificationsAllowed() async throws {
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        // prompt the user to allow notifications
+        // prompt the user to allow notifications, both remote and local
         if try await UNUserNotificationCenter.current().requestAuthorization(options: authOptions) {
-            try await registerRemoteNotifications()
+            // don't register for remote notifications in the study
+            if !FeatureFlags.healthKitUploadOnly {
+                try await registerRemoteNotifications()
+            }
         }
     }
     
@@ -87,5 +90,14 @@ class PrismaPushNotifications: NSObject, Module, NotificationHandler, Notificati
         Task {
             await standard.storeToken(token: fcmToken)
         }
+    }
+    
+    /// Sends a local notification to reopen the app to resume HK Data upload.
+    func sendHealthKitUploadPausedNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Health Data Upload Paused"
+        content.body = "Please open the app to continue the upload of your health data."
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request)
     }
 }

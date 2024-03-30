@@ -10,8 +10,10 @@
 
 import SwiftUI
 
-struct HKUploadProgressView: View {
+struct HKUploadProgress: View {
     @Binding var presentingAccount: Bool
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(PrismaPushNotifications.self) private var pushNotifications
     @State private var progress = 0.5 // replace with progress from the actual upload
     
     var body: some View {
@@ -46,10 +48,14 @@ struct HKUploadProgressView: View {
                     AccountButton(isPresented: $presentingAccount)
                 }
             }
+            .onChange(of: scenePhase) {
+                if scenePhase == .background {
+                    pushNotifications.sendHealthKitUploadPausedNotification()
+                }
+            }
         }
     }
 }
-
 
 struct ProgressBarStyle: ProgressViewStyle {
     func makeBody(configuration: Configuration) -> some View {
@@ -74,6 +80,6 @@ struct ProgressBarStyle: ProgressViewStyle {
 
 #if DEBUG
 #Preview {
-    HKUploadProgressView(presentingAccount: .constant(false))
+    HKUploadProgress(presentingAccount: .constant(false))
 }
 #endif

@@ -33,7 +33,7 @@ struct HomeView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             if FeatureFlags.healthKitUploadOnly {
-                HKUploadProgressView(presentingAccount: $presentingAccount)
+                HKUploadProgress(presentingAccount: $presentingAccount)
             } else {
                 ChatView(presentingAccount: $presentingAccount)
                     .tag(Tabs.chat)
