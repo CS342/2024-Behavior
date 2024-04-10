@@ -483,6 +483,28 @@
     "Hide Timestamp" : {
 
     },
+    "HK_UPLOAD_TEXT_1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your health data is currently uploading. Please keep the app open and the screen unlocked until the upload is complete."
+          }
+        }
+      }
+    },
+    "HK_UPLOAD_TEXT_2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To prevent your phone from automatically turning off, please open your Settings app and go to Settings > Display & Brightness > Auto-Lock > Never."
+          }
+        }
+      }
+    },
     "JAMES_LANDAY_BIO" : {
       "localizations" : {
         "en" : {
@@ -854,6 +876,9 @@
           }
         }
       }
+    },
+    "Your upload is complete!" : {
+
     }
   },
   "version" : "1.0"

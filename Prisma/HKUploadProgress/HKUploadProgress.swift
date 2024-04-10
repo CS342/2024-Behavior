@@ -46,7 +46,8 @@ struct HKUploadProgress: View {
                         .padding(.horizontal)
                     Text("\(Int(progress * 100))%")
                         .font(.headline)
-                        .padding(.top)
+                        .padding([.top, .bottom])
+                    uploadText
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -63,6 +64,26 @@ struct HKUploadProgress: View {
                     pushNotifications.sendHealthKitUploadPausedNotification()
                 }
             }
+        }
+    }
+    
+    var uploadText: some View {
+        if progress < 1 {
+            return AnyView(
+                VStack {
+                    Text("HK_UPLOAD_TEXT_1")
+                        .padding(.bottom)
+                        .multilineTextAlignment(.center)
+                    Text("HK_UPLOAD_TEXT_2")
+                        .foregroundStyle(.gray)
+                        .multilineTextAlignment(.center)
+                }
+            )
+        } else {
+            return AnyView(
+                Text("Your upload is complete!")
+                    .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+            )
         }
     }
 }
