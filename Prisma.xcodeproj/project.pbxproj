@@ -56,7 +56,6 @@
 		2FE5DC5329EDD7FA004B9AB4 /* Bundle+Questionnaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE5DC4D29EDD7FA004B9AB4 /* Bundle+Questionnaire.swift */; };
 		2FE5DC6429EDD883004B9AB4 /* SpeziAccount in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC6329EDD883004B9AB4 /* SpeziAccount */; };
 		2FE5DC6729EDD894004B9AB4 /* SpeziContact in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC6629EDD894004B9AB4 /* SpeziContact */; };
-		2FE5DC7229EDD8D3004B9AB4 /* SpeziHealthKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC7129EDD8D3004B9AB4 /* SpeziHealthKit */; };
 		2FE5DC7529EDD8E6004B9AB4 /* SpeziFirebaseAccount in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC7429EDD8E6004B9AB4 /* SpeziFirebaseAccount */; };
 		2FE5DC7729EDD8E6004B9AB4 /* SpeziFirebaseConfiguration in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC7629EDD8E6004B9AB4 /* SpeziFirebaseConfiguration */; };
 		2FE5DC7929EDD8E6004B9AB4 /* SpeziFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE5DC7829EDD8E6004B9AB4 /* SpeziFirestore */; };
@@ -78,6 +77,7 @@
 		5F5ECC5E2B9F3F9000B666BC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5F5ECC5D2B9F3F9000B666BC /* FirebaseFirestore */; };
 		5F5ECC622B9F53F600B666BC /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5F5ECC612B9F53F600B666BC /* FirebaseAuth */; };
 		5FBBD2B62B875DB800B75E9F /* PrismaStandard+PushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBBD2B52B875DB800B75E9F /* PrismaStandard+PushNotifications.swift */; };
+		5FCFB0B22BC5F2410055C6D9 /* SpeziHealthKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5FCFB0B12BC5F2410055C6D9 /* SpeziHealthKit */; };
 		5FECE9562B6C9A5F00C06B13 /* PushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FECE9552B6C9A5F00C06B13 /* PushNotifications.swift */; };
 		5FECE9592B6CCF0B00C06B13 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 5FECE9582B6CCF0B00C06B13 /* FirebaseMessaging */; };
 		5FF4C15C2BB586B500A8950D /* HKUploadProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF4C15B2BB586B500A8950D /* HKUploadProgress.swift */; };
@@ -248,6 +248,7 @@
 				2FE5DC6729EDD894004B9AB4 /* SpeziContact in Frameworks */,
 				2FE5DC8429EDD934004B9AB4 /* SpeziQuestionnaire in Frameworks */,
 				2FB099B32A875DF100B20952 /* FirebaseFirestoreSwift in Frameworks */,
+				5FCFB0B22BC5F2410055C6D9 /* SpeziHealthKit in Frameworks */,
 				5661551D2AB8384200209B80 /* SwiftPackageList in Frameworks */,
 				2FB099B12A875DF100B20952 /* FirebaseFirestore in Frameworks */,
 				A9D83F962B083794000D0C78 /* SpeziFirebaseAccountStorage in Frameworks */,
@@ -256,7 +257,6 @@
 				2FE5DC8C29EDD972004B9AB4 /* SpeziSecureStorage in Frameworks */,
 				2FE5DC7529EDD8E6004B9AB4 /* SpeziFirebaseAccount in Frameworks */,
 				9739A0C62AD7B5730084BEA5 /* FirebaseStorage in Frameworks */,
-				2FE5DC7229EDD8D3004B9AB4 /* SpeziHealthKit in Frameworks */,
 				2F49B7762980407C00BCB272 /* Spezi in Frameworks */,
 				2FE5DC8F29EDD980004B9AB4 /* SpeziViews in Frameworks */,
 				2F3D4ABC2A4E7C290068FB2F /* SpeziScheduler in Frameworks */,
@@ -580,7 +580,6 @@
 				2F49B7752980407B00BCB272 /* Spezi */,
 				2FE5DC6329EDD883004B9AB4 /* SpeziAccount */,
 				2FE5DC6629EDD894004B9AB4 /* SpeziContact */,
-				2FE5DC7129EDD8D3004B9AB4 /* SpeziHealthKit */,
 				2FE5DC7429EDD8E6004B9AB4 /* SpeziFirebaseAccount */,
 				2FE5DC7629EDD8E6004B9AB4 /* SpeziFirebaseConfiguration */,
 				2FE5DC7829EDD8E6004B9AB4 /* SpeziFirestore */,
@@ -600,6 +599,7 @@
 				97D73D692AD860AD00B47FA0 /* SpeziFirebaseStorage */,
 				A9D83F952B083794000D0C78 /* SpeziFirebaseAccountStorage */,
 				5FECE9582B6CCF0B00C06B13 /* FirebaseMessaging */,
+				5FCFB0B12BC5F2410055C6D9 /* SpeziHealthKit */,
 			);
 			productName = Prisma;
 			productReference = 653A254D283387FE005D4D48 /* Prisma.app */;
@@ -684,7 +684,6 @@
 				2F49B7742980407B00BCB272 /* XCRemoteSwiftPackageReference "Spezi" */,
 				2FE5DC6229EDD883004B9AB4 /* XCRemoteSwiftPackageReference "SpeziAccount" */,
 				2FE5DC6529EDD894004B9AB4 /* XCRemoteSwiftPackageReference "SpeziContact" */,
-				2FE5DC7029EDD8D3004B9AB4 /* XCRemoteSwiftPackageReference "SpeziHealthKit" */,
 				2FE5DC7329EDD8E6004B9AB4 /* XCRemoteSwiftPackageReference "SpeziFirebase" */,
 				2FE5DC8229EDD934004B9AB4 /* XCRemoteSwiftPackageReference "SpeziQuestionnaire" */,
 				2FE5DC8829EDD972004B9AB4 /* XCRemoteSwiftPackageReference "SpeziStorage" */,
@@ -696,6 +695,7 @@
 				97F466E62A76BBEE005DC9B4 /* XCRemoteSwiftPackageReference "SpeziOnboarding" */,
 				2FB099B42A875E2B00B20952 /* XCRemoteSwiftPackageReference "HealthKitOnFHIR" */,
 				5661551B2AB8384200209B80 /* XCRemoteSwiftPackageReference "swift-package-list" */,
+				5FCFB0B02BC5F2400055C6D9 /* XCRemoteSwiftPackageReference "SpeziHealthKit" */,
 			);
 			productRefGroup = 653A254E283387FE005D4D48 /* Products */;
 			projectDirPath = "";
@@ -1519,14 +1519,6 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		2FE5DC7029EDD8D3004B9AB4 /* XCRemoteSwiftPackageReference "SpeziHealthKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/StanfordSpezi/SpeziHealthKit.git";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 0.5.0;
-			};
-		};
 		2FE5DC7329EDD8E6004B9AB4 /* XCRemoteSwiftPackageReference "SpeziFirebase" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/StanfordSpezi/SpeziFirebase.git";
@@ -1591,6 +1583,14 @@
 				minimumVersion = 3.0.10;
 			};
 		};
+		5FCFB0B02BC5F2400055C6D9 /* XCRemoteSwiftPackageReference "SpeziHealthKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mjoerke/SpeziHealthKit.git";
+			requirement = {
+				branch = bulkupload;
+				kind = branch;
+			};
+		};
 		97F466E62A76BBEE005DC9B4 /* XCRemoteSwiftPackageReference "SpeziOnboarding" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/StanfordSpezi/SpeziOnboarding";
@@ -1645,11 +1645,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2FE5DC6529EDD894004B9AB4 /* XCRemoteSwiftPackageReference "SpeziContact" */;
 			productName = SpeziContact;
-		};
-		2FE5DC7129EDD8D3004B9AB4 /* SpeziHealthKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2FE5DC7029EDD8D3004B9AB4 /* XCRemoteSwiftPackageReference "SpeziHealthKit" */;
-			productName = SpeziHealthKit;
 		};
 		2FE5DC7429EDD8E6004B9AB4 /* SpeziFirebaseAccount */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1720,6 +1715,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2FE5DC9029EDD9C3004B9AB4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		5FCFB0B12BC5F2410055C6D9 /* SpeziHealthKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5FCFB0B02BC5F2400055C6D9 /* XCRemoteSwiftPackageReference "SpeziHealthKit" */;
+			productName = SpeziHealthKit;
 		};
 		5FECE9582B6CCF0B00C06B13 /* FirebaseMessaging */ = {
 			isa = XCSwiftPackageProductDependency;

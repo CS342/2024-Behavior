@@ -13,7 +13,18 @@ import SpeziFirestore
 import SpeziHealthKit
 
 
-extension PrismaStandard: HealthKitConstraint {
+extension PrismaStandard: BulkUploadConstraint {
+    /// Notifies the `Standard` about the addition of a batch of HealthKit ``HKSample`` samples instance.
+    /// - Parameter samplesAdded: The batch of `HKSample`s that should be added.
+    /// - Parameter objectsDeleted: The batch of `HKSample`s that were deleted from the HealthStore. Included if needed to account for rate limiting
+    /// when uploading to a cloud provider.
+    func processBulk(samplesAdded: [HKSample], samplesDeleted: [HKDeletedObject]) async {
+        
+        for hkSample in samplesAdded {
+            await add(sample: <#T##HKSample#>)
+        }
+    }
+    
     /// Adds a new `HKSample` to the Firestore.
     /// - Parameter response: The `HKSample` that should be added.
     func add(sample: HKSample) async {
