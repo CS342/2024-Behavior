@@ -1587,7 +1587,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mjoerke/SpeziHealthKit.git";
 			requirement = {
-				branch = bulkupload;
+				branch = main;
 				kind = branch;
 			};
 		};
