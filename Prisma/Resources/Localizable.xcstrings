@@ -7,6 +7,9 @@
     "%@" : {
 
     },
+    "%lld%%" : {
+
+    },
     "About" : {
 
     },
@@ -399,7 +402,7 @@
         }
       }
     },
-    "HealthKit Data Upload Progress" : {
+    "HealthKit Upload" : {
 
     },
     "HEALTHKIT_PERMISSIONS_BUTTON" : {
@@ -417,7 +420,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This study will access data from your iPhone and Apple Watch to monitor your physical activity. Click the button below to grant or deny access to specific data sources."
+            "value" : "This study will access data from your iPhone and Apple Watch. Click the button below to grant or deny access to specific data sources."
           }
         }
       }
@@ -625,6 +628,9 @@
         }
       }
     },
+    "PRISMA" : {
+
+    },
     "PRIVACY_CONTROLS_TITLE" : {
       "comment" : "MARK: - Privacy Controls",
       "extractionState" : "manual",
@@ -794,6 +800,9 @@
 
     },
     "Upcoming notification" : {
+
+    },
+    "Upload Progress" : {
 
     },
     "Walking Heart Rate Average" : {

@@ -20,11 +20,19 @@ struct Welcome: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(alignment: .center) {
                         title
-                        Image(.appIconNoBackground)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 0.7 * geometry.size.width)
-                            .accessibilityHidden(true)
+                        if FeatureFlags.healthKitUploadOnly {
+                            Image(.healthKitUploadIconNoBG)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 0.7 * geometry.size.width)
+                                .accessibilityHidden(true)
+                        } else {
+                            Image(.appIconNoBackground)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 0.7 * geometry.size.width)
+                                .accessibilityHidden(true)
+                        }
                         Spacer()
                         description
                         Spacer()
@@ -42,24 +50,32 @@ struct Welcome: View {
     }
     
     var title: some View {
-        var titleText = "PRISMA"
         if FeatureFlags.healthKitUploadOnly {
-            titleText = "HealthKit Upload"
-        }
-        
-        return Text(titleText)
-            .font(.system(size: 60))
-            .fontWeight(.bold)
-            .fontDesign(.rounded)
-            .padding()
-            .multilineTextAlignment(.center)
-            .foregroundStyle(
-                LinearGradient(
-                    colors: [.purple, .blue],
-                    startPoint: .bottomLeading,
-                    endPoint: .topTrailing
+            return AnyView(
+                Text("HealthKit Upload")
+                .font(.system(size: 50))
+                .fontWeight(.bold)
+                .fontDesign(.rounded)
+                .padding()
+                .multilineTextAlignment(.center)
+            )
+        } else {
+            return AnyView(
+                Text("PRISMA")
+                .font(.system(size: 60))
+                .fontWeight(.bold)
+                .fontDesign(.rounded)
+                .padding()
+                .multilineTextAlignment(.center)
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [.purple, .blue],
+                        startPoint: .bottomLeading,
+                        endPoint: .topTrailing
+                    )
                 )
             )
+        }
     }
     
     var description: some View {

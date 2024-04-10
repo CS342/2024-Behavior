@@ -5,10 +5,24 @@
 //
 // SPDX-License-Identifier: MIT
 //
-//  Created by Bryant Jimenez on 3/28/24.
+// Created by Bryant Jimenez on 3/28/24.
 //
 
 import SwiftUI
+
+struct ProgressBarStyle: ProgressViewStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundColor(Color.secondary.opacity(0.3))
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: CGFloat(configuration.fractionCompleted ?? 0) * geometry.size.width, height: geometry.size.height)
+            }
+        }
+    }
+}
 
 struct HKUploadProgress: View {
     @Binding var presentingAccount: Bool
@@ -18,30 +32,26 @@ struct HKUploadProgress: View {
     
     var body: some View {
         NavigationStack {
-            Spacer()
             VStack {
-                Text("HealthKit Data Upload Progress")
-                    .font(.title)
-                    .multilineTextAlignment(.center)
-                    .fontWeight(.bold)
-                    .fontDesign(.rounded)
-                    .padding()
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [.purple, .blue],
-                            startPoint: .bottomLeading,
-                            endPoint: .topTrailing
-                        )
-                    )
-                GeometryReader { geometry in
-                    Spacer()
+                Spacer()
+                VStack {
+                    Text("Upload Progress")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .fontDesign(.rounded)
+                        .padding()
                     ProgressView(value: progress)
                         .progressViewStyle(ProgressBarStyle())
-                        .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.05, alignment: .center)
-                        .padding()
-                    Spacer()
+                        .frame(height: 20)
+                        .padding(.horizontal)
+                    Text("\(Int(progress * 100))%")
+                        .font(.headline)
+                        .padding(.top)
                 }
+                .frame(maxWidth: .infinity)
+                .padding()
+                
+                Spacer()
             }
             .toolbar {
                 if AccountButton.shouldDisplay {
@@ -52,27 +62,6 @@ struct HKUploadProgress: View {
                 if scenePhase == .background {
                     pushNotifications.sendHealthKitUploadPausedNotification()
                 }
-            }
-        }
-    }
-}
-
-struct ProgressBarStyle: ProgressViewStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .leading) {
-                Rectangle()
-                    .foregroundColor(Color.secondary.opacity(0.3))
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                Rectangle()
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [.purple, .blue],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .frame(width: CGFloat(configuration.fractionCompleted ?? 0) * geometry.size.width, height: geometry.size.height)
             }
         }
     }
