@@ -30,7 +30,6 @@ struct HKUploadProgress: View {
     @Binding var presentingAccount: Bool
     @Environment(\.scenePhase) private var scenePhase
     @Environment(PrismaPushNotifications.self) private var pushNotifications
-    @State private var progress = 0.5 // replace with progress from the actual upload
     
     var body: some View {
         NavigationStack {
@@ -46,7 +45,7 @@ struct HKUploadProgress: View {
                         .progressViewStyle(ProgressBarStyle())
                         .frame(height: 20)
                         .padding(.horizontal)
-                    Text("\(Int(progress * 100))%")
+                    Text("\(Int(healthKit.progress.fractionCompleted * 100))%")
                         .font(.headline)
                         .padding([.top, .bottom])
                     uploadText
@@ -70,7 +69,7 @@ struct HKUploadProgress: View {
     }
     
     var uploadText: some View {
-        if progress < 1 {
+        if healthKit.progress.fractionCompleted < 1 {
             return AnyView(
                 VStack {
                     Text("HK_UPLOAD_TEXT_1")
