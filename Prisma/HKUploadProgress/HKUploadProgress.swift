@@ -61,7 +61,8 @@ struct HKUploadProgress: View {
                 }
             }
             .onChange(of: scenePhase) {
-                if scenePhase == .background {
+                if scenePhase == .background && !healthKit.progress.isFinished{
+                    print("Entering background and progress is at \(healthKit.progress).")
                     pushNotifications.sendHealthKitUploadPausedNotification()
                 }
             }

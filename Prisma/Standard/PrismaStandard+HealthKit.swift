@@ -47,7 +47,6 @@ extension PrismaStandard: BulkUploadConstraint, HealthKitConstraint {
             let sleepDuration = minimumDuration - elapsedTime
             try? await _Concurrency.Task.sleep(nanoseconds: sleepDuration)
         }
-        logger.debug("done processing bulk")
     }
     
     /// Adds a new `HKSample` to the Firestore.
@@ -61,8 +60,6 @@ extension PrismaStandard: BulkUploadConstraint, HealthKitConstraint {
         guard collectDataTypes[sample.sampleType] ?? false else {
             return
         }
-        
-        logger.debug("add: \(sample.sampleType.identifier)")
         
         // convert the startDate of the HKSample to local time
         let timeIndex = Date.constructTimeIndex(startDate: sample.startDate, endDate: sample.endDate)
