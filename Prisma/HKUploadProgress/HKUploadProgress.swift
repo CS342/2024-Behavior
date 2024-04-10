@@ -8,6 +8,7 @@
 // Created by Bryant Jimenez on 3/28/24.
 //
 
+import SpeziHealthKit
 import SwiftUI
 
 struct ProgressBarStyle: ProgressViewStyle {
@@ -25,6 +26,7 @@ struct ProgressBarStyle: ProgressViewStyle {
 }
 
 struct HKUploadProgress: View {
+    @Environment(HealthKit.self) private var healthKit
     @Binding var presentingAccount: Bool
     @Environment(\.scenePhase) private var scenePhase
     @Environment(PrismaPushNotifications.self) private var pushNotifications
@@ -40,7 +42,7 @@ struct HKUploadProgress: View {
                         .fontWeight(.bold)
                         .fontDesign(.rounded)
                         .padding()
-                    ProgressView(value: progress)
+                    ProgressView(value: healthKit.progress.fractionCompleted)
                         .progressViewStyle(ProgressBarStyle())
                         .frame(height: 20)
                         .padding(.horizontal)
