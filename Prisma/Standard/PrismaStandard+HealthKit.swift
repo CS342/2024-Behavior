@@ -40,7 +40,7 @@ extension PrismaStandard: BulkUploadConstraint {
 
         let endTime = DispatchTime.now()
         let elapsedTime = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
-        let minimumDuration: UInt64 = 1_000_000_000 // 1s = 1,000,000,000ns
+        let minimumDuration: UInt64 = 1_200_000_000 // 1s = 1,000,000,000ns (with 0.2s buffer time)
 
         if elapsedTime < minimumDuration {
             let sleepDuration = minimumDuration - elapsedTime

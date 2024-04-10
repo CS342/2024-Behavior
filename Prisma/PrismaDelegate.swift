@@ -108,7 +108,7 @@ class PrismaDelegate: SpeziAppDelegate {
                     options: .strictEndDate
                 ),
                 bulkSize: 500,
-                deliveryStartSetting: .automatic
+                deliveryStartSetting: .manual
             )
         }
     }

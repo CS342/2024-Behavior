@@ -26,5 +26,6 @@ enum Constants {
         return hostname
     }()
     
-    static let keyChainGroup = "637867499T.edu.stanford.cs342.2024.behavior"
+//    static let keyChainGroup = "637867499T.edu.stanford.cs342.2024.behavior"
+    static let keyChainGroup = "64FJ2MWNP4.edu.stanford.prisma"
 }
