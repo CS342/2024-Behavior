@@ -13,12 +13,13 @@ import SpeziFirestore
 import SpeziHealthKit
 
 
-extension PrismaStandard: BulkUploadConstraint {
+extension PrismaStandard: BulkUploadConstraint, HealthKitConstraint {
     /// Notifies the `Standard` about the addition of a batch of HealthKit ``HKSample`` samples instance.
     /// - Parameter samplesAdded: The batch of `HKSample`s that should be added.
     /// - Parameter objectsDeleted: The batch of `HKSample`s that were deleted from the HealthStore. Included if needed to account for rate limiting
     /// when uploading to a cloud provider.
     func processBulk(samplesAdded: [HKSample], samplesDeleted: [HKDeletedObject]) async {
+        logger.debug("processBulk \(samplesAdded.count) \(samplesDeleted.count)")
         let startTime = DispatchTime.now()
 
         await withTaskGroup(of: Void.self) { group in
@@ -46,6 +47,7 @@ extension PrismaStandard: BulkUploadConstraint {
             let sleepDuration = minimumDuration - elapsedTime
             try? await _Concurrency.Task.sleep(nanoseconds: sleepDuration)
         }
+        logger.debug("done processing bulk")
     }
     
     /// Adds a new `HKSample` to the Firestore.
@@ -59,6 +61,8 @@ extension PrismaStandard: BulkUploadConstraint {
         guard collectDataTypes[sample.sampleType] ?? false else {
             return
         }
+        
+        logger.debug("add: \(sample.sampleType.identifier)")
         
         // convert the startDate of the HKSample to local time
         let timeIndex = Date.constructTimeIndex(startDate: sample.startDate, endDate: sample.endDate)

@@ -108,7 +108,11 @@ class PrismaDelegate: SpeziAppDelegate {
                     options: .strictEndDate
                 ),
                 bulkSize: 500,
-                deliveryStartSetting: .manual
+                deliveryStartSetting: .automatic
+            )
+            CollectSamples(
+                Set(PrismaDelegate.healthKitSampleTypes),
+                deliverySetting: .anchorQuery(.automatic)
             )
         }
     }
