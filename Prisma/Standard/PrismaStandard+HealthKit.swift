@@ -19,7 +19,6 @@ extension PrismaStandard: BulkUploadConstraint, HealthKitConstraint {
     /// - Parameter objectsDeleted: The batch of `HKSample`s that were deleted from the HealthStore. Included if needed to account for rate limiting
     /// when uploading to a cloud provider.
     func processBulk(samplesAdded: [HKSample], samplesDeleted: [HKDeletedObject]) async {
-        logger.debug("processBulk \(samplesAdded.count) \(samplesDeleted.count)")
         let startTime = DispatchTime.now()
 
         await withTaskGroup(of: Void.self) { group in

@@ -10,17 +10,20 @@
 
 import SpeziHealthKit
 import SwiftUI
+import SpeziViews
 
 struct ProgressBarStyle: ProgressViewStyle {
     func makeBody(configuration: Configuration) -> some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                RoundedRectangle(cornerRadius: 10)
+                Rectangle()
                     .foregroundColor(Color.secondary.opacity(0.3))
                     .frame(width: geometry.size.width, height: geometry.size.height)
-                RoundedRectangle(cornerRadius: 10)
+                Rectangle()
                     .frame(width: CGFloat(configuration.fractionCompleted ?? 0) * geometry.size.width, height: geometry.size.height)
+                    .animation(.linear, value: configuration.fractionCompleted)
             }
+            .clipShape(RoundedRectangle(cornerRadius: 20))
         }
     }
 }
@@ -61,7 +64,7 @@ struct HKUploadProgress: View {
                 }
             }
             .onChange(of: scenePhase) {
-                if scenePhase == .background && !healthKit.progress.isFinished{
+                if scenePhase == .background && !healthKit.progress.isFinished {
                     print("Entering background and progress is at \(healthKit.progress).")
                     pushNotifications.sendHealthKitUploadPausedNotification()
                 }
