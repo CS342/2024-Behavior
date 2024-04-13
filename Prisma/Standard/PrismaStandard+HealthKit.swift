@@ -14,80 +14,98 @@ import SpeziHealthKit
 
 
 extension PrismaStandard: BulkUploadConstraint, HealthKitConstraint {
+    // Converts an HKSample to a Firestore-compatible resource and returns the path and resource dictionary
+    private func convertToFirestoreResource(sample: HKSample) async throws -> (path: String, resource: [String: Any]) {
+        let effectiveTimestamp = sample.startDate.toISOFormat()
+        let path = try await getPath(module: .health(sample.sampleType.identifier)) + "raw/\(effectiveTimestamp)"
+        
+        let deviceName = sample.sourceRevision.source.name
+        let timeIndex = Date.constructTimeIndex(startDate: sample.startDate, endDate: sample.endDate)
+        
+        let resource = try sample.resource
+        let encoder = FirebaseFirestore.Firestore.Encoder()
+        var firestoreResource = try encoder.encode(resource)
+        
+        firestoreResource["device"] = deviceName
+        firestoreResource.merge(timeIndex as [String: Any]) { _, new in new }
+        firestoreResource["datetimeStart"] = effectiveTimestamp
+        
+        return (path, firestoreResource)
+    }
+    
+    
     /// Notifies the `Standard` about the addition of a batch of HealthKit ``HKSample`` samples instance.
     /// - Parameter samplesAdded: The batch of `HKSample`s that should be added.
     /// - Parameter objectsDeleted: The batch of `HKSample`s that were deleted from the HealthStore. Included if needed to account for rate limiting
     /// when uploading to a cloud provider.
     func processBulk(samplesAdded: [HKSample], samplesDeleted: [HKDeletedObject]) async {
         let startTime = DispatchTime.now()
-
-        await withTaskGroup(of: Void.self) { group in
+        
+        var documentsToAdd: [(String, [String: Any])] = []
+        await withTaskGroup(of: Optional<(String, [String: Any])>.self) { group in
             for sample in samplesAdded {
                 group.addTask {
-                    await self.add(sample: sample)
+                    do {
+                        return try await self.convertToFirestoreResource(sample: sample)
+                    } catch {
+                        self.logger.error("Error converting sample to Firestore resource: \(error.localizedDescription)")
+                        return nil
+                    }
                 }
             }
 
-             for sample in samplesDeleted {
-                 group.addTask {
-                     await self.remove(sample: sample)
-                 }
-             }
-            
-            // Await completion of all tasks in the group.
-            await group.waitForAll()
+            for await result in group {
+                if let result = result {
+                    documentsToAdd.append(result)
+                }
+            }
         }
 
+        await uploadBatch(documents: documentsToAdd, retryCount: 0)
+        
         let endTime = DispatchTime.now()
         let elapsedTime = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
         let minimumDuration: UInt64 = 1_200_000_000 // 1s = 1,000,000,000ns (with 0.2s buffer time)
 
         if elapsedTime < minimumDuration {
-            let sleepDuration = minimumDuration - elapsedTime
-            try? await _Concurrency.Task.sleep(nanoseconds: sleepDuration)
+           let sleepDuration = minimumDuration - elapsedTime
+           try? await _Concurrency.Task.sleep(nanoseconds: sleepDuration)
+        }
+    }
+    
+    private func uploadBatch(documents: [(String, [String: Any])], retryCount: Int) async {
+        do {
+            let db = Firestore.firestore()
+            let batch = db.batch()
+            
+            for (path, data) in documents {
+                let docRef = db.document(path)
+                batch.setData(data, forDocument: docRef)
+            }
+
+            try await batch.commit()
+            logger.info("Batch write succeeded.")
+        } catch {
+            logger.error("Error writing batch: \(error)")
+            if retryCount < 5 {
+                let backoffTime = UInt64(pow(2.0, Double(retryCount))) * 1_000_000_000 // Exponential backoff in seconds
+                logger.info("Retrying batch upload in \(backoffTime / 1_000_000_000) seconds...")
+                try? await _Concurrency.Task.sleep(nanoseconds: backoffTime)
+                await uploadBatch(documents: documents, retryCount: retryCount + 1)
+            } else {
+                logger.error("Reached maximum retry attempts for batch upload.")
+            }
         }
     }
     
     /// Adds a new `HKSample` to the Firestore.
     /// - Parameter response: The `HKSample` that should be added.
     func add(sample: HKSample) async {
-        guard let collectDataTypes = privacyModule?.collectDataTypes else {
-            return
-        }
-        
-        // Only upload types that the user gave permission for.
-        guard collectDataTypes[sample.sampleType] ?? false else {
-            return
-        }
-        
-        // convert the startDate of the HKSample to local time
-        let timeIndex = Date.constructTimeIndex(startDate: sample.startDate, endDate: sample.endDate)
-        let effectiveTimestamp = sample.startDate.toISOFormat()
-        
-        let path: String
-        // path = HEALTH_KIT_PATH/raw/YYYY-MM-DDThh:mm:ss.mss
         do {
-            path = try await getPath(module: .health(sample.sampleType.identifier)) + "raw/\(effectiveTimestamp)"
+            let (path, resource) = try await convertToFirestoreResource(sample: sample)
+            try await Firestore.firestore().document(path).setData(resource)
         } catch {
-            print("Failed to define path: \(error.localizedDescription)")
-            return
-        }
-        
-        // try push to Firestore.
-        do {
-            let deviceName = sample.sourceRevision.source.name
-            let resource = try sample.resource
-            let encoder = FirebaseFirestore.Firestore.Encoder()
-            // encoder is used to convert swift types to a format that can be stored in firestore
-            var firestoreResource = try encoder.encode(resource)
-            firestoreResource["device"] = deviceName
-            // timeIndex is a dictionary with time-related info (range, timezone, datetime.start, datetime.end)
-            // timeIndex fields are merged with this specific HK datapoint so we can just access this part to fetch/sort by time
-            firestoreResource.merge(timeIndex as [String: Any]) { _, new in new }
-            firestoreResource["datetimeStart"] = effectiveTimestamp
-            try await Firestore.firestore().document(path).setData(firestoreResource)
-        } catch {
-            logger.warning("Failed to set data in Firestore: \(error.localizedDescription)")
+            logger.error("Failed to add data in Firestore: \(error.localizedDescription)")
         }
     }
     

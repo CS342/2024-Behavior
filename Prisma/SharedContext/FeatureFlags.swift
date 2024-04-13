@@ -10,58 +10,22 @@ import Foundation
 
 /// A collection of feature flags for the Prisma application.
 enum FeatureFlags {
-    private static var cache: [String: Bool] = [:]
-
-    private static func flag(forKey key: String, commandLinePrefix: String) -> Bool {
-        if let cachedValue = cache[key] {
-            return cachedValue
-        }
-        
-        let value: Bool
-        if CommandLine.arguments.contains(commandLinePrefix) {
-            value = true
-            print("Saving key \(key): \(value)")
-            UserDefaults.standard.set(value, forKey: key)
-        } else {
-            value = UserDefaults.standard.bool(forKey: key)
-            
-        }
-        
-        cache[key] = value
-        return value
-    }
-
-    static var skipOnboarding: Bool {
-        flag(forKey: "skipOnboarding", commandLinePrefix: "--skipOnboarding")
-    }
-    
+    /// Skips the onboarding flow to enable easier development of features in the application and to allow UI tests to skip the onboarding flow.
+    static let skipOnboarding = CommandLine.arguments.contains("--skipOnboarding")
     /// Always show the onboarding when the application is launched. Makes it easy to modify and test the onboarding flow without the need to manually remove the application or reset the simulator.
-    static var showOnboarding: Bool {
-        flag(forKey: "showOnboarding", commandLinePrefix: "--showOnboarding")
-    }
-    
+    static let showOnboarding = CommandLine.arguments.contains("--showOnboarding")
     /// Disables the Firebase interactions, including the login/sign-up step and the Firebase Firestore upload.
-    static var disableFirebase: Bool {
-        flag(forKey: "disableFirebase", commandLinePrefix: "--disableFirebase")
-    }
-    
+    static let disableFirebase = CommandLine.arguments.contains("--disableFirebase")
     #if targetEnvironment(simulator)
     /// Defines if the application should connect to the local firebase emulator. Always set to true when using the iOS simulator.
     static let useFirebaseEmulator = true
     #else
     /// Defines if the application should connect to the local firebase emulator. Always set to true when using the iOS simulator.
-    static var useFirebaseEmulator: Bool {
-        flag(forKey: "useFirebaseEmulator", commandLinePrefix: "--useFirebaseEmulator")
-    }
+    static let useFirebaseEmulator = CommandLine.arguments.contains("--useFirebaseEmulator")
     #endif
-    
     /// Adds a test task to the schedule at the current time
-    static var testSchedule: Bool {
-        flag(forKey: "testSchedule", commandLinePrefix: "--testSchedule")
-    }
-    
+    static let testSchedule = CommandLine.arguments.contains("--testSchedule")
     /// Strips down the application to just onboarding + healthkit data upload, for research study purposes.
-    static var healthKitUploadOnly: Bool {
-        flag(forKey: "healthKitUploadOnly", commandLinePrefix: "--healthKitUploadOnly")
-    }
+//    static let healthKitUploadOnly = CommandLine.arguments.contains("--healthKitUploadOnly")
+    static let healthKitUploadOnly = true
 }

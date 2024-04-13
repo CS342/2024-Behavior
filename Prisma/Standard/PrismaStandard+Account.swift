@@ -31,10 +31,10 @@ extension PrismaStandard: AccountStorageConstraint {
         if FeatureFlags.disableFirebase {
             accountId = "USER_ID"
         } else {
-            guard let details = await account.details else {
+            guard let firebaseId = Auth.auth().currentUser?.uid else {
                 throw PrismaStandardError.userNotAuthenticatedYet
             }
-            accountId = details.accountId
+            accountId = firebaseId
         }
         
         /// the "MODULE/SUBTYPE" string.
@@ -69,12 +69,12 @@ extension PrismaStandard: AccountStorageConstraint {
     /// - Throws: An error if an issue occurs during the authorization process.
     func authorizeAccessGroupForCurrentUser() async {
         guard let user = Auth.auth().currentUser else {
-            print("No signed in user.")
+            logger.warning("No signed in user.")
             return
         }
         
         guard (try? Auth.auth().getStoredUser(forAccessGroup: Constants.keyChainGroup)) == nil else {
-            print("Access group already shared ...")
+            logger.warning("Access group already shared ...")
             return
         }
         
@@ -82,7 +82,7 @@ extension PrismaStandard: AccountStorageConstraint {
             try Auth.auth().useUserAccessGroup(Constants.keyChainGroup)
             try await Auth.auth().updateCurrentUser(user)
         } catch let error as NSError {
-            print("Error changing user access group: %@", error)
+            logger.error("Error changing user access group: %@ \(error)")
             // log out the user if fails
             try? Auth.auth().signOut()
         }
@@ -113,9 +113,9 @@ extension PrismaStandard: AccountStorageConstraint {
             try await self.userDocumentReference.setData([
                 "created_at": timestamp
             ], merge: true)
-            print("Added timestamp to user document")
+            logger.debug("Added timestamp to user document")
         } catch {
-            print("Error updating document: \(error)")
+            logger.error("Error updating document: \(error)")
         }
     }
 

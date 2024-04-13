@@ -19,7 +19,7 @@ actor PrismaStandard: Standard, EnvironmentAccessible {
     }
     
     /// modify this study id to change the Firebase bucket.
-    static let STUDYID = "testing"
+    static let STUDYID = "tech-probe"
     
     static var userCollection: CollectionReference {
         Firestore.firestore().collection("studies").document(STUDYID).collection("users")
