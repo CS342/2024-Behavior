@@ -18,52 +18,7 @@ typealias PrismaScheduler = Scheduler<PrismaTaskContext>
 extension PrismaScheduler {
     convenience init() {
         self.init(
-            tasks: [
-                Task(
-                    title: String(localized: "MORNING_SURVEY_TITLE"),
-                    description: String(localized: "MORNING_SURVEY_DESCRIPTION"),
-                    schedule: Schedule(
-                        start: Calendar.current.startOfDay(for: .now),
-                        repetition: .randomBetween(start: .init(hour: 8, minute: 00), end: .init(hour: 11, minute: 00)), // Every Day between 8-11 AM
-                        end: .numberOfEvents(356)
-                    ),
-                    notifications: true,
-                    context: PrismaTaskContext.questionnaire(Bundle.main.questionnaire(withName: "morning-en-US"))
-                ),
-                Task(
-                    title: String(localized: "MID_DAY_SURVEY_TITLE"),
-                    description: String(localized: "MID_DAY_SURVEY_DESCRIPTION"),
-                    schedule: Schedule(
-                        start: Calendar.current.startOfDay(for: .now),
-                        repetition: .randomBetween(start: .init(hour: 11, minute: 00), end: .init(hour: 14, minute: 00)), // Every Day at 11-14 PM
-                        end: .numberOfEvents(356)
-                    ),
-                    notifications: true,
-                    context: PrismaTaskContext.questionnaire(Bundle.main.questionnaire(withName: "mid-day-en-US"))
-                ),
-                Task(
-                    title: String(localized: "AFTERNOON_SURVEY_TITLE"),
-                    description: String(localized: "AFTERNOON_SURVEY_DESCRIPTION"),
-                    schedule: Schedule(
-                        start: Calendar.current.startOfDay(for: .now),
-                        repetition: .randomBetween(start: .init(hour: 14, minute: 00), end: .init(hour: 17, minute: 00)), // Every Day at 14-17 PM
-                        end: .numberOfEvents(356)
-                    ),
-                    notifications: true,
-                    context: PrismaTaskContext.questionnaire(Bundle.main.questionnaire(withName: "afternoon-en-US"))
-                ),
-                Task(
-                    title: String(localized: "END_OF_THE_DAY_SURVEY_TITLE"),
-                    description: String(localized: "END_OF_THE_DAY_SURVEY_DESCRIPTION"),
-                    schedule: Schedule(
-                        start: Calendar.current.startOfDay(for: .now),
-                        repetition: .matching(.init(hour: 17, minute: 00)), // Every Day at 17:00 PM
-                        end: .numberOfEvents(356)
-                    ),
-                    notifications: true,
-                    context: PrismaTaskContext.questionnaire(Bundle.main.questionnaire(withName: "end-of-day-en-US"))
-                )
-            ]
+            tasks: []
         )
     }
 }

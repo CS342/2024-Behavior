@@ -16,7 +16,6 @@ import SwiftUI
 /// Displays an multi-step onboarding flow for Prisma.
 struct OnboardingFlow: View {
     @Environment(HealthKit.self) private var healthKitDataSource
-    @Environment(PrismaScheduler.self) private var scheduler
 
     @AppStorage(StorageKeys.onboardingFlowComplete) private var completedOnboardingFlow = false
     

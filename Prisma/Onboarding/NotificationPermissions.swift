@@ -12,7 +12,6 @@ import SwiftUI
 
 
 struct NotificationPermissions: View {
-    @Environment(PrismaScheduler.self) private var scheduler
     @Environment(OnboardingNavigationPath.self) private var onboardingNavigationPath
     @Environment(PrismaPushNotifications.self) private var pushNotifications
     
